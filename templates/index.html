@@ -1,59 +1,47 @@
 ﻿{% load staticfiles %}
-    <link rel="stylesheet" href="static/css/reset.css" type="text/css" media="screen"> 
-    <script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
-    <script src="{% static 'js/highcharts.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
+<link rel="stylesheet" href="static/css/reset.css" type="text/css" media="screen"> 
+<script src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+<script src="{% static 'js/highcharts.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/exporting.js' %}"></script>
 <script>
-    $(function () {
-    $('#container').highcharts({
-        chart: {
-            type: 'column',
-            margin: [ 50, 50, 100, 80]
-        },
-        title: {
-            text: '网站访问数据'
-        },
-        xAxis: {
-            categories: {{ categories | safe }},               \\这里我们引入的数据
-            labels: {
-                rotation: 0,
-                align: 'right',
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: '访问量'
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            pointFormat: '访问量: <b>{point.y:.1f}</b>',
-        },
-        series: [{
-            name: '今天的日志',
-            data: {{ data }},
-            dataLabels: {
-                enabled: false,
-                rotation: -90,
-                color: '#FFFFFF',
-                align: 'right',
-                x: 4,
-                y: 10,
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif',
-                    textShadow: '0 0 3px black'
-                }
-            }
-        }]
-    });
-});
+$(document).ready(function() {
+				 new Highcharts.Chart({
+					chart: {
+						renderTo: 'container',
+						plotBackgroundColor: null,
+						plotBorderWidth: null,
+						plotShadow: false
+					},
+					title: {
+						text: '卡片应用所在空间百分比'
+					},
+					tooltip: {
+						formatter: function() {
+							return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+						}
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							dataLabels: {
+								enabled: true,
+								color: '#000000',
+								connectorColor: '#000000',
+								formatter: function() {
+									return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+								}
+							}
+						}
+					},
+				    series: [{
+						type: 'pie',
+						name: 'Browser share',
+						data: eval("[{'name':'AppDataSize1','y':200},{'name':'AppDataSize2','y':300},]")
+						
+						
+					}]
+				});
+			});
 </script>
 <div id="container" style="min-width:700px;height:400px"></div>
